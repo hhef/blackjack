@@ -2,6 +2,12 @@ import random
 import os
 
 
+def new_card(hand, deck):
+    random.shuffle(deck)
+    card = hand.append(deck[0])
+    deck.remove(deck[0])
+
+
 def hand_score(hand):
     score = 0
     non_aces = [card for card in hand if card != "A"]
@@ -20,23 +26,23 @@ def hand_score(hand):
     return score
 
 
-deck = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'] *4
-
-random.shuffle(deck)
+deck = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'] * 4
 
 dealer_hand = []
 player_hand = []
 
-dealer_hand.append(deck.pop())  # zmienić bo on zabiera element z lity i oddaje go znowu ale trzeba zakonczyc talie kart
-player_hand.append(deck.pop())
-dealer_hand.append(deck.pop())
-player_hand.append(deck.pop())
+new_card(dealer_hand, deck)
+new_card(player_hand, deck)
+new_card(dealer_hand, deck)
+new_card(player_hand, deck)
 
 standing = False
 first_hand = True
 
 while True:
     os.system("cls" if os.name == 'nt' else 'clear')
+    if not deck:
+        deck = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'] * 4
 
     player_score = hand_score(player_hand)
     dealer_score = hand_score(dealer_hand)
@@ -76,8 +82,8 @@ while True:
     choice = input("Your choice: ")
     print('')
     if choice.lower() == "hit":
-        player_hand.append(deck.pop())
+        new_card(player_hand, deck)
     elif choice.lower() == "stand":
         standing = True
         while hand_score(dealer_hand) <= 16:
-            dealer_hand.append(deck.pop())
+            new_card(dealer_hand, deck)
