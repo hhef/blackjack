@@ -3,7 +3,6 @@ import os
 
 
 def new_card(hand, deck):
-    random.shuffle(deck)
     card = hand.append(deck[0])
     deck.remove(deck[0])
 
@@ -27,7 +26,7 @@ def hand_score(hand):
 
 
 deck = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'] * 4
-
+random.shuffle(deck)
 dealer_hand = []
 player_hand = []
 
@@ -54,12 +53,10 @@ while True:
     print('')
 
     if standing:
-        if dealer_score > 21:
+        if dealer_score > 21 or player_score > dealer_score:
             print("You win")
         elif player_score == dealer_score:
             print("It's a tie")
-        elif player_score > dealer_score:
-            print("You win")
         else:
             print("You lost")
 
